@@ -28,7 +28,9 @@ The application can take a number of command line arguments:
 
 A quick example: 
 
+```
 ProjectReferences.Console.exe -rootfile "c:\work\myprojectfile.csproj" -outputfolder "C:\temp\projectReferences" -outputtype YumlImage -loglevel High
+```
 
 Some properties can be set via the configuration file:
 
