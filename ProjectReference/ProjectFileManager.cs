@@ -8,11 +8,21 @@ namespace ProjectReference
 {
     public class ProjectFileManager
     {
+        /// <summary>
+        /// Creates a project detail object from the link information provided.
+        /// </summary>
+        /// <param name="linkObject"></param>
+        /// <returns></returns>
         public ProjectDetail Create(ProjectLinkObject linkObject)
         {
             return Create(linkObject.FullPath);
         }
 
+        /// <summary>
+        /// Creates a project detail object from the path to a CS project file.
+        /// </summary>
+        /// <param name="fullFilePath"></param>
+        /// <returns></returns>
         public ProjectDetail Create(string fullFilePath)
         {
             if (!File.Exists(fullFilePath))

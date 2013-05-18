@@ -11,7 +11,11 @@ namespace ProjectReference
 {
     public static class Manager
     {
-
+        /// <summary>
+        /// Creates the rootNode collection from the analysisRequest.  Will interigate the solution and proejcts to find all other projects and their relationships.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public static RootNode CreateRootNode(AnalysisRequest request)
         {
             if (!File.Exists(request.RootFile))

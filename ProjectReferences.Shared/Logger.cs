@@ -10,6 +10,7 @@ namespace ProjectReferences.Shared
         private static string _folderLocation = string.Empty;
         private static string _fileLocation = "ProjectReferenceLog.log";
 
+
         public static void Log(string message, LogLevel logLevel = LogLevel.Low)
         {
             if ((int) logLevel <= _MaxloggingLevel)

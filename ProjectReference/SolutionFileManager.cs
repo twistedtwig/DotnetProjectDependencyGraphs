@@ -7,7 +7,11 @@ namespace ProjectReference
 {
     public class SolutionFileManager
     {
-
+        /// <summary>
+        /// Find projects that are referenced in a solution file and creates a list of references to them.
+        /// </summary>
+        /// <param name="rootNode"></param>
+        /// <returns></returns>
         public List<InvestigationLink> FindAllProjectLinks(RootNode rootNode)
         {
             var solution = new Solution(rootNode.File.FullName);
