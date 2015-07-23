@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
@@ -61,6 +61,20 @@ namespace ProjectReference
             }
 
             details.ChildProjects.AddRange(projectReferenceObjects);
+
+            //get all dll references
+            XmlNodeList dllReferences = xmlDoc.SelectNodes(@"/msb:Project/msb:ItemGroup/msb:Reference[not(starts-with(@Include,'System')) and not(starts-with(@Include,'Microsoft.'))]", nsMgr);
+            IList<DllReference> dllReferenceObjects = new List<DllReference>();
+
+            foreach (XmlElement reference in dllReferences)
+            {
+                var include = reference.GetAttribute("Include"); 
+
+                dllReferenceObjects.Add(new DllReference { AssemblyName = include.Split(',')[0] });
+            }
+
+            details.References.AddRange(dllReferenceObjects);
+
             return details;
         }
     }
