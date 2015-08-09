@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using ProjectReferences.Models;
 using ProjectReferences.Output.Yuml.Models;
@@ -81,6 +81,16 @@ namespace ProjectReferences.Output.Yuml
                 });
             }
 
+            foreach (var dllReference in projectDetail.References)
+            {
+                var childModel = GenerateClass(dllReference);
+                relationships.Add(new SimpleAssociation
+                {
+                    Parent = detailModel,
+                    Child = childModel
+                });
+            }
+
             return relationships;
         }
 
@@ -89,6 +99,17 @@ namespace ProjectReferences.Output.Yuml
             var detailModel = new YumlClassWithDetails();
             detailModel.Name = projectDetail.Name;
             detailModel.Notes.Add(".Net Version: " + projectDetail.DotNetVersion);
+
+            return detailModel;
+        }
+
+        private YumlClassWithDetails GenerateClass(DllReference dllReference)
+        {
+            var detailModel = new YumlClassWithDetails();
+            detailModel.Name = dllReference.AssemblyName;// string.Format("{0}.dll", dllReference.AssemblyName);
+            //detailModel.Notes.Add(".Net Version: " + projectDetail.DotNetVersion);
+
+            //store dll reference version.
 
             return detailModel;
         }

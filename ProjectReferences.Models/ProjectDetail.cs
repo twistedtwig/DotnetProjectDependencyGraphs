@@ -10,6 +10,7 @@ namespace ProjectReferences.Models
         {
             ChildProjects = new List<ProjectLinkObject>();
             ParentProjects = new List<ProjectLinkObject>();
+            References = new List<DllReference>();
         }
 
         public Guid Id { get; set; }
@@ -18,6 +19,7 @@ namespace ProjectReferences.Models
         public string Name { get; set; }
         public List<ProjectLinkObject> ChildProjects { get; protected set; }
         public List<ProjectLinkObject> ParentProjects { get; protected set; }
+        public List<DllReference> References { get; protected set; }
 
 
         public void AddParentLinks(List<ProjectLinkObject> parentLinks)
