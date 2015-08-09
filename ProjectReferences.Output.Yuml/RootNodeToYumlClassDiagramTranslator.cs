@@ -109,6 +109,8 @@ namespace ProjectReferences.Output.Yuml
             detailModel.Name = dllReference.AssemblyName;// string.Format("{0}.dll", dllReference.AssemblyName);
             //detailModel.Notes.Add(".Net Version: " + projectDetail.DotNetVersion);
 
+            //store dll reference version.
+
             return detailModel;
         }
 
