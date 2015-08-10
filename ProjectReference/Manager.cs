@@ -57,33 +57,33 @@ namespace ProjectReference
             throw new ArgumentOutOfRangeException("unknown file extension");
         }
 
-        public static void Process(RootNode rootNode)
+        public static void Process(RootNode rootNode, bool includeExternalReferences)
         {
             switch (rootNode.NodeType)
             {
                 case RootNodeType.SLN:
-                    ProcessSlnRootNode(rootNode);
+                    ProcessSlnRootNode(rootNode, includeExternalReferences);
                     return;
                 case RootNodeType.CSPROJ:
-                    ProcessCsProjRootNode(rootNode);
+                    ProcessCsProjRootNode(rootNode, includeExternalReferences);
                     return;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
 
-        private static void ProcessSlnRootNode(RootNode rootNode)
+        private static void ProcessSlnRootNode(RootNode rootNode, bool includeExternalReferences)
         {
             var projectLinks = new SolutionFileManager().FindAllProjectLinks(rootNode);
-            ProcessLinks(projectLinks, rootNode);
+            ProcessLinks(projectLinks, rootNode, includeExternalReferences);
         }
 
-        private static void ProcessCsProjRootNode(RootNode rootNode)
+        private static void ProcessCsProjRootNode(RootNode rootNode, bool includeExternalReferences)
         {
-            ProcessLinks(new List<InvestigationLink> { new InvestigationLink {FullPath = rootNode.File.FullName, Parent = null} }, rootNode);
+            ProcessLinks(new List<InvestigationLink> { new InvestigationLink { FullPath = rootNode.File.FullName, Parent = null } }, rootNode, includeExternalReferences);
         }
 
-        private static void ProcessLinks(List<InvestigationLink> linksToBeInvestigated, RootNode rootNode)
+        private static void ProcessLinks(List<InvestigationLink> linksToBeInvestigated, RootNode rootNode, bool includeExternalReferences)
         {
             while (linksToBeInvestigated.Any())
             {
@@ -91,7 +91,7 @@ namespace ProjectReference
                 linksToBeInvestigated.RemoveAt(0);
 
                 var link = new ProjectLinkObject {FullPath = item.FullPath};
-                var projectDetail = new ProjectFileManager().Create(link);
+                var projectDetail = new ProjectFileManager().Create(link, includeExternalReferences);
                 if (item.Parent != null)
                 {
                     projectDetail.ParentProjects.Add(item.Parent);

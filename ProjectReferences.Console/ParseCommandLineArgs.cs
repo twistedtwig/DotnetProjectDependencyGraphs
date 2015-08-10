@@ -101,6 +101,13 @@ namespace ProjectReferences.Console
                             }
                         }
                         break;
+
+                    case "-includeexternal":
+                        if (args.Length > i + 1)
+                        {
+                            request.IncludeExternalReferences = bool.Parse(args[i + 1]);
+                        }
+                        break;
                 }
             }
 

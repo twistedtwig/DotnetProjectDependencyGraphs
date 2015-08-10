@@ -107,9 +107,11 @@ namespace ProjectReferences.Output.Yuml
         {
             var detailModel = new YumlClassWithDetails();
             detailModel.Name = dllReference.AssemblyName;// string.Format("{0}.dll", dllReference.AssemblyName);
-            //detailModel.Notes.Add(".Net Version: " + projectDetail.DotNetVersion);
-
-            //store dll reference version.
+            detailModel.Notes.Add(
+                string.Format("External Reference{0}", 
+                string.IsNullOrWhiteSpace(dllReference.Version) ? "" : string.Format(" ({0})", dllReference.Version)
+                )
+            );
 
             return detailModel;
         }

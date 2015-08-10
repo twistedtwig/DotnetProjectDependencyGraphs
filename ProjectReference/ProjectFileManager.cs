@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Xml;
 using ProjectReferences.Models;
 
@@ -13,9 +14,9 @@ namespace ProjectReference
         /// </summary>
         /// <param name="linkObject"></param>
         /// <returns></returns>
-        public ProjectDetail Create(ProjectLinkObject linkObject)
+        public ProjectDetail Create(ProjectLinkObject linkObject, bool includeExternalReferences)
         {
-            return Create(linkObject.FullPath);
+            return Create(linkObject.FullPath, includeExternalReferences);
         }
 
         /// <summary>
@@ -23,7 +24,7 @@ namespace ProjectReference
         /// </summary>
         /// <param name="fullFilePath"></param>
         /// <returns></returns>
-        public ProjectDetail Create(string fullFilePath)
+        public ProjectDetail Create(string fullFilePath, bool includeExternalReferences)
         {
             if (!File.Exists(fullFilePath))
             {
@@ -62,18 +63,50 @@ namespace ProjectReference
 
             details.ChildProjects.AddRange(projectReferenceObjects);
 
-            //get all dll references
-            XmlNodeList dllReferences = xmlDoc.SelectNodes(@"/msb:Project/msb:ItemGroup/msb:Reference[not(starts-with(@Include,'System')) and not(starts-with(@Include,'Microsoft.'))]", nsMgr);
-            IList<DllReference> dllReferenceObjects = new List<DllReference>();
-
-            foreach (XmlElement reference in dllReferences)
+            if (includeExternalReferences)
             {
-                var include = reference.GetAttribute("Include"); 
+                //get all dll references
+                XmlNodeList dllReferences = xmlDoc.SelectNodes(@"/msb:Project/msb:ItemGroup/msb:Reference[not(starts-with(@Include,'System')) and not(starts-with(@Include,'Microsoft.'))]", nsMgr);
+                IList<DllReference> dllReferenceObjects = new List<DllReference>();
 
-                dllReferenceObjects.Add(new DllReference { AssemblyName = include.Split(',')[0] });
-            }
+                if (dllReferences != null)
+                {
+                    foreach (XmlElement reference in dllReferences)
+                    {
+                        var include = reference.GetAttribute("Include");
+                        var version = reference.GetAttribute("Version");
 
-            details.References.AddRange(dllReferenceObjects);
+                        //if not version stored as XML then try and get the hint path.
+                        if (string.IsNullOrWhiteSpace(version))
+                        {
+                            var inner = reference.InnerXml;
+                            if (!string.IsNullOrWhiteSpace(inner) && inner.StartsWith("<HintPath"))
+                            {
+                                var innerHintPathXml = new XmlDocument();
+                                innerHintPathXml.LoadXml(inner);
+
+                                var relativehintPath = innerHintPathXml.InnerText;
+                                var csprojFile = new FileInfo(fullFilePath);
+
+                                var directory = csprojFile.Directory.FullName  + (relativehintPath.StartsWith(@"\") ? "" : @"\");
+                                var dllPath = Path.GetFullPath(directory + relativehintPath);
+                                var dllFile = new FileInfo(dllPath);
+                                if (dllFile.Exists)
+                                {
+                                    Assembly assembly = Assembly.LoadFrom(dllFile.FullName);
+                                    Version ver = assembly.GetName().Version;
+                                    version = ver.ToString();
+                                }
+
+                            }
+                        }
+
+                        dllReferenceObjects.Add(new DllReference { AssemblyName = include.Split(',')[0], Version = version });
+                    }
+
+                    details.References.AddRange(dllReferenceObjects);                    
+                }                
+            }            
 
             return details;
         }

@@ -25,6 +25,7 @@ The application can take a number of command line arguments:
 - logfolder
 - logfile
 - logtype
+- includeexternal
 
 A quick example: 
 

@@ -40,7 +40,7 @@ namespace ProjectReferences.Console
             RootNode rootNode = Manager.CreateRootNode(request);
 
             Logger.Log("Processing rootNode to fill all project references");
-            Manager.Process(rootNode);
+            Manager.Process(rootNode, request.IncludeExternalReferences);
 
             Logger.Log("Creating output for rootNode", LogLevel.High);
             var outputResponse = Manager.CreateOutPut(request, rootNode);
@@ -80,6 +80,16 @@ namespace ProjectReferences.Console
                 if (Enum.IsDefined(typeof(LogLevel), loggerLevel))
                 {
                     request.LogLevel = (LogLevel)Enum.Parse(typeof(LogLevel), loggerLevel, true);
+                }
+            }
+
+            var includeExternalRefs = ConfigurationManager.AppSettings["IncludeExternalReferences"];
+            if (!string.IsNullOrWhiteSpace(includeExternalRefs))
+            {
+                bool result;
+                if (bool.TryParse(includeExternalRefs, out result))
+                {
+                    request.IncludeExternalReferences = result;
                 }
             }
 

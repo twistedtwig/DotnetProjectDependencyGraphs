@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectReferences.Models", "ProjectReferences.Models\ProjectReferences.Models.csproj", "{504DAA83-919F-4BD1-BBC8-0583551E0C58}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectReference", "ProjectReference\ProjectReference.csproj", "{5967A959-5FB2-4CE5-ADA5-CA2FE820DDAB}"
@@ -22,6 +24,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectReferences.Output.Html", "ProjectReferences.Output.Html\ProjectReferences.Output.Html.csproj", "{51B7E0D6-0DC4-4131-8F77-BABE4DB30E6D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectReferences.Interfaces", "ProjectReferences.Interfaces\ProjectReferences.Interfaces.csproj", "{82B5BC82-10C7-40B2-B772-B03C934E40D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5CDBDD77-0454-404D-BE91-37D0EAD67444}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,8 +81,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{9916044A-4AF4-4ECC-B8EC-B0725F1CCBA8} = {A07598F2-31D4-44BC-992F-21CE94D0F8C6}
 		{B3EB70EC-28C9-4FBB-B79D-3C1EA934D59C} = {A07598F2-31D4-44BC-992F-21CE94D0F8C6}
+		{9916044A-4AF4-4ECC-B8EC-B0725F1CCBA8} = {A07598F2-31D4-44BC-992F-21CE94D0F8C6}
 		{C3E580C2-F31F-48B1-9CBF-E50A1AB2ADF8} = {A07598F2-31D4-44BC-992F-21CE94D0F8C6}
 		{51B7E0D6-0DC4-4131-8F77-BABE4DB30E6D} = {A07598F2-31D4-44BC-992F-21CE94D0F8C6}
 	EndGlobalSection

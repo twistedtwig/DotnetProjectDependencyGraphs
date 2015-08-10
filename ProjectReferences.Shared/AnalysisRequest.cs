@@ -13,6 +13,7 @@ namespace ProjectReferences.Shared
             OutPutType = OutPutType.YumlReferenceList;
             LogLevel = LogLevel.Low;
             LogType = LogType.Console;
+            IncludeExternalReferences = false;
         }
 
         public string RootFile { get; set; }
@@ -23,6 +24,8 @@ namespace ProjectReferences.Shared
 
         public bool CreateOutputForEachItem { get; set; }
         public OutPutType OutPutType { get; set; }
+
+        public bool IncludeExternalReferences { get; set; }
 
         public LogLevel LogLevel { get; set; }
         public LogType LogType { get; set; }
